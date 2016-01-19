@@ -8,15 +8,20 @@ size = width, height = 1700, 1080
 black = 0, 0, 0
 white = 255, 255, 255
 green = 50, 255, 100
-screen = pygame.display.set_mode(size)
+#screen = pygame.display.set_mode(size,)
+screen = pygame.display.set_mode(size, pygame.FULLSCREEN)
 offset = 50
 size = 10
 
 board = pygame.image.load("Content/Board.jpg")
+menu = pygame.image.load("Content/Menu.jpg") 
 play = pygame.image.load("Content/Play.png").convert()
 play_hover = pygame.image.load("Content/Play_hover.png").convert()
 exit = pygame.image.load("Content/Quit.png").convert()
 exit_hover = pygame.image.load("Content/Quit_hover.png").convert()
+number2 = pygame.image.load("Content/#1.png").convert()
+number3 = pygame.image.load("Content/#2.png").convert()
+number4 = pygame.image.load("Content/#3.png").convert()
 play_r = play.get_rect()
 play_r.x, play_r.y = (705, 360)
 exit_r = exit.get_rect()
@@ -26,6 +31,7 @@ def Main():
   play_r.x, play_r.y = (705, 360)
   start = time.time()
   playing = False
+  players = False
   currentscreen = 0
   Hover_play_r = False
   Hover_exit_r = False
@@ -43,7 +49,8 @@ def Main():
             screen.blit(exit_hover, (705, 460))
             currentscreen = 0
         else:
-            screen.fill(black)
+            #screen.fill(black)
+            screen.blit(menu, (0,0))
             screen.blit(play, (705,360))
             screen.blit(exit, (705,460))
             currentscreen = 0
@@ -66,10 +73,13 @@ def Main():
                 print("PLAY")
                 playing = True
                 if playing == True and currentscreen == 0:
-                    screen.fill(black)
+                    screen.blit(menu, (0,0))
                     pygame.font.init()
                     myfont = pygame.font.SysFont("monospace", 30)
                     label = myfont.render("Choose amount of players.", 1, (255,255,255))
+                    screen.blit(number2, (705,360))
+                    screen.blit(number3, (705,460))
+                    screen.blit(number4, (705,560))
                     screen.blit(label, (425, 200))
                     currentscreen = 1
             elif (pos_x > 704) and (pos_x < 960) and (pos_y > 459) and (pos_y < 506):
