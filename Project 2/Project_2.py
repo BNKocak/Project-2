@@ -24,6 +24,9 @@ exit_hover = pygame.image.load("Content/Quit_hover.png").convert()
 number2 = pygame.image.load("Content/#1.png").convert()
 number3 = pygame.image.load("Content/#2.png").convert()
 number4 = pygame.image.load("Content/#3.png").convert()
+number2_hover = pygame.image.load("Content/#1_hover.png").convert()
+number3_hover = pygame.image.load("Content/#2_hover.png").convert()
+number4_hover = pygame.image.load("Content/#3_hover.png").convert()
 dice_1 = pygame.image.load("Content/1.png").convert()
 dice_2 = pygame.image.load("Content/2.png").convert()
 dice_3 = pygame.image.load("Content/3.png").convert()
@@ -31,6 +34,13 @@ dice_4 = pygame.image.load("Content/4.png").convert()
 dice_5 = pygame.image.load("Content/5.png").convert()
 dice_6 = pygame.image.load("Content/6.png").convert()
 dice = pygame.image.load("Content/dice.png").convert()
+
+number2_r = play.get_rect()
+number2_r.x, number2_r.y = (705, 360)
+number3_r = play.get_rect()
+number3_r.x, number3_r.y = (705, 460)
+number4_r = play.get_rect()
+number4_r.x, number4_r.y = (705, 560)
 
 play_r = play.get_rect()
 play_r.x, play_r.y = (705, 360)
@@ -40,6 +50,8 @@ dice_r = dice.get_rect()
 dice_r.x, dice_r.y = (1180, 300)
 dicelist = [dice_1, dice_2, dice_3, dice_4, dice_5, dice_6]
 #----------------------------------------------------------------------------
+
+
 def Main():
   start = time.time()
   playing = False
@@ -47,6 +59,9 @@ def Main():
   Hover_play_r = False
   Hover_exit_r = False
   diceclicked = False
+  Hover_number2_r = False
+  Hover_number3_r = False
+  Hover_number4_r = False
   while True:    
     pygame.event.pump() 
     # 0 = First Menu
@@ -66,6 +81,22 @@ def Main():
             screen.blit(play, (705,360))
             screen.blit(exit, (705,460))
             currentscreen = 0
+    if playing == True and currentscreen == 1:
+        if Hover_number2_r == True:
+            screen.blit(number2_hover, (705, 360))
+            currentscreen = 1
+        elif Hover_number3_r == True:
+            screen.blit(number3_hover, (705, 460))
+            currentscreen = 1
+        elif Hover_number4_r == True:
+            screen.blit(number4_hover, (705, 560))
+            currentscreen = 1
+        else:
+            screen.blit(number2, (705,360))
+            screen.blit(number3, (705,460))
+            screen.blit(number4, (705,560))
+            currentscreen = 1
+        
     for event in pygame.event.get():                                # for loop EVENT iteration
         if play_r.collidepoint(pygame.mouse.get_pos()):             # HOVER CHECK
             Hover_play_r = True
@@ -75,11 +106,19 @@ def Main():
             Hover_exit_r = True
         else:
             Hover_exit_r = False
-        if currentscreen == 2:
-            if diceclicked == False:
-                screen.fill(black)
-                screen.blit(board, (0,0))
-                screen.blit(dice, (1180, 300))
+        if number2_r.collidepoint(pygame.mouse.get_pos()):
+            Hover_number2_r = True
+        else:
+            Hover_number2_r = False
+        if number3_r.collidepoint(pygame.mouse.get_pos()):
+            Hover_number3_r = True
+        else:
+            Hover_number3_r = False
+        if number4_r.collidepoint(pygame.mouse.get_pos()):
+            Hover_number4_r = True
+        else:
+            Hover_number4_r = False
+        
         if event.type == pygame.MOUSEBUTTONUP:                      # EVEN PROCESSING MOUSECLICKS
             pos = pygame.mouse.get_pos()
             pos_x = pos[0]
@@ -92,10 +131,10 @@ def Main():
                 if playing == True and currentscreen == 0:
                     screen.fill(black)
                     pygame.font.init()
-                    myfont = pygame.font.SysFont("monospace", 30)
-                    label = myfont.render("Choose amount of players", 1, (255,255,255))
+                    myfont = pygame.font.SysFont("calibri", 50)
+                    label = myfont.render("Choose amount of players", 1, (0, 0, 0))
                     screen.blit(menu, (0,0))
-                    screen.blit(label, (425, 200))
+                    screen.blit(label, (560, 120))
                     screen.blit(number2, (705,360))
                     screen.blit(number3, (705,460))
                     screen.blit(number4, (705,560))
@@ -116,15 +155,20 @@ def Main():
                 i = random.randint(0, 5)
                 screen.blit(dicelist[i], (1180, 300))
                 diceclicked = True
+                playing = True
 
         if event.type == pygame.KEYDOWN:                                                # PAUSE SCREEN
             if event.key == pygame.K_ESCAPE:
-                playing == False
+                playing = False
                 screen.fill(black)
                 screen.blit(play, (705,360))
                 screen.blit(exit, (705,460))
                 currentscreen = 3
-
+    if currentscreen == 2:
+        if diceclicked == False:
+            screen.fill(black)
+            screen.blit(board, (0,0))
+            screen.blit(dice, (1180, 300))
         #elif event.type == pygame.MOUSEMOTION:
         #    print("mouse at (%d, %d)" % event.pos)
     
