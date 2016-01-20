@@ -3,9 +3,10 @@ from threading import Thread
 import os, pygame
 import time
 import random
-
+from Node import *
+from Players import *
 pygame.init()
-size = width, height = 1700, 950
+size = width, height = 1700, 1080
 black = 0, 0, 0
 white = 255, 255, 255
 green = 50, 255, 100
@@ -17,23 +18,24 @@ size = 10
 #---------------------------------------------------------------------------
 board = pygame.image.load("Content/Board.jpg")
 menu = pygame.image.load("Content/Menu.jpg") 
-play = pygame.image.load("Content/Play.png").convert()
-play_hover = pygame.image.load("Content/Play_hover.png").convert()
-exit = pygame.image.load("Content/Quit.png").convert()
-exit_hover = pygame.image.load("Content/Quit_hover.png").convert()
-number2 = pygame.image.load("Content/#1.png").convert()
-number3 = pygame.image.load("Content/#2.png").convert()
-number4 = pygame.image.load("Content/#3.png").convert()
-number2_hover = pygame.image.load("Content/#1_hover.png").convert()
-number3_hover = pygame.image.load("Content/#2_hover.png").convert()
-number4_hover = pygame.image.load("Content/#3_hover.png").convert()
-dice_1 = pygame.image.load("Content/1.png").convert()
-dice_2 = pygame.image.load("Content/2.png").convert()
-dice_3 = pygame.image.load("Content/3.png").convert()
-dice_4 = pygame.image.load("Content/4.png").convert()
-dice_5 = pygame.image.load("Content/5.png").convert()
-dice_6 = pygame.image.load("Content/6.png").convert()
-dice = pygame.image.load("Content/dice.png").convert()
+play = pygame.image.load("Content/Play.png").convert_alpha()
+play_hover = pygame.image.load("Content/Play_hover.png").convert_alpha()
+exit = pygame.image.load("Content/Quit.png").convert_alpha()
+exit_hover = pygame.image.load("Content/Quit_hover.png").convert_alpha()
+number2 = pygame.image.load("Content/#1.png").convert_alpha()
+number3 = pygame.image.load("Content/#2.png").convert_alpha()
+number4 = pygame.image.load("Content/#3.png").convert_alpha()
+number2_hover = pygame.image.load("Content/#1_hover.png").convert_alpha()
+number3_hover = pygame.image.load("Content/#2_hover.png").convert_alpha()
+number4_hover = pygame.image.load("Content/#3_hover.png").convert_alpha()
+dice_1 = pygame.image.load("Content/1.png").convert_alpha()
+dice_2 = pygame.image.load("Content/2.png").convert_alpha()
+dice_3 = pygame.image.load("Content/3.png").convert_alpha()
+dice_4 = pygame.image.load("Content/4.png").convert_alpha()
+dice_5 = pygame.image.load("Content/5.png").convert_alpha()
+dice_6 = pygame.image.load("Content/6.png").convert_alpha()
+dice = pygame.image.load("Content/dice.png").convert_alpha()
+pion = pygame.image.load("Content/pion.png").convert_alpha()
 
 number2_r = play.get_rect()
 number2_r.x, number2_r.y = (705, 360)
@@ -62,6 +64,10 @@ def Main():
   Hover_number2_r = False
   Hover_number3_r = False
   Hover_number4_r = False
+  TilePlayerBlue = Node(Position(33, 33), Node(Position(140, 33), Node(Position(140, 33), Node(Position(220, 33), Node(Position(300, 33), Node(Position(380, 44), Node(Position(505, 33), Node(Position(625, 33),\
+        Node(Position(705, 33), Node(Position(785, 33), Node(Position(865, 33), Node(Position(975, 33), Empty))))))))))))
+  FirstPlayer = Player1(TilePlayerBlue, pion)
+
   while True:    
     pygame.event.pump() 
     # 0 = First Menu
@@ -164,13 +170,24 @@ def Main():
                 screen.blit(play, (705,360))
                 screen.blit(exit, (705,460))
                 currentscreen = 3
-    if currentscreen == 2:
+    if currentscreen == 2:                                                              # Playing Board Screen
         if diceclicked == False:
             screen.fill(black)
             screen.blit(board, (0,0))
+            screen.blit(pion, (FirstPlayer.MyTile.Value.PositionX,FirstPlayer.MyTile.Value.PositionX))
+            screen.blit(pion, (FirstPlayer.MyTile.Tail.Value.PositionX,FirstPlayer.MyTile.Tail.Value.PositionY))
+            screen.blit(pion, (220,33))
+            screen.blit(pion, (300,33))
+            screen.blit(pion, (380,33))
+            screen.blit(pion, (505,33))
+            screen.blit(pion, (625,33))
+            screen.blit(pion, (705,33))
+            screen.blit(pion, (785,33))
+            screen.blit(pion, (865,33))
+            screen.blit(pion, (975,33))
             screen.blit(dice, (1180, 300))
-        #elif event.type == pygame.MOUSEMOTION:
-        #    print("mouse at (%d, %d)" % event.pos)
+        if event.type == pygame.MOUSEMOTION:
+            print("mouse at (%d, %d)" % event.pos)
     
     pygame.display.flip()
     time.sleep(0.01)
