@@ -22,8 +22,6 @@
     <EnableUnmanagedDebugging>false</EnableUnmanagedDebugging>
   </PropertyGroup>
   <ItemGroup>
-    <Compile Include="Node.py" />
-    <Compile Include="Players.py" />
     <Compile Include="Project_2.py" />
   </ItemGroup>
   <PropertyGroup>
